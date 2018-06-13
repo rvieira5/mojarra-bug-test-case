@@ -10,9 +10,46 @@
     </h:head>
     <h:body>
 
-        <h1>#{testView.testString}</h1>
+        <p>The following example shows a list of objects, with all of them
+            having a inner object instantiated. The list should be printing only
+            'not-empty object' values.</p>
 
-        <h1>#{testViewCdi.testString}</h1>
+        <p>The bug happens when there is a p:commandLink tag in a form,
+            another form with a dataTable containing a var element with the same
+            name as the actual dataTable var attribute and one or more unrelated
+            forms. The p:commandLink must reference the unrelated forms. When the
+            page is rendered, the current form var seems to be erased, hence the
+            current row data is corrupted.</p>
+
+        <p>Some workarounds to fix the error:</p>
+        <ul>
+            <li>Change the var name in one of the h:dataTable components</li>
+            <li>Remove the p:commandLink tag of the column in the h:dataTable
+                (or change to h:commandLink tag)</li>
+            <li>Remove the update attribute inside the p:commandLink tag</li>
+        </ul>
+
+        <hr />
+
+        <h:form id="firstForm">
+            <h:dataTable id="firstTable" value="#{testView.list}" var="testRow">
+                <h:column>
+                    <ui:fragment rendered="#{testRow.flag}">
+                        <p:commandLink disabled="#{empty testRow.innerObject}"
+                                       update="thirdForm" />
+                    </ui:fragment>
+                    <h:outputText
+                        value="#{empty testRow.innerObject ? 'empty object' : 'not-empty object'}" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+
+        <h:form id="secondForm">
+            <h:dataTable id="secondTable" value="#{testView.list}" var="testRow" />
+        </h:form>
+
+        <h:form id="thirdForm">
+        </h:form>
 
     </h:body>
 </html>

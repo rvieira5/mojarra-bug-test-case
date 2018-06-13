@@ -1,26 +1,34 @@
 package org.primefaces.test;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
+
+import org.primefaces.test.pojo.TestObject;
 
 @ManagedBean(name = "testView")
-@ViewScoped
+@RequestScoped
 public class TestView implements Serializable {
-    
-    private String testString;
-    
-    @PostConstruct  
+
+    private List<TestObject> list;
+
+    @PostConstruct
     public void init() {
-        testString = "Welcome to PrimeFaces!!!";
+        list = new ArrayList<TestObject>();
+
+        list.add(new TestObject(true, new Object()));
+        list.add(new TestObject(false, new Object()));
+        list.add(new TestObject(false, new Object()));
+        list.add(new TestObject(true, new Object()));
+        list.add(new TestObject(false, new Object()));
     }
 
-    public String getTestString() {
-        return testString;
+    public List<TestObject> getList() {
+        return list;
     }
 
-    public void setTestString(String testString) {
-        this.testString = testString;
-    }    
 }
