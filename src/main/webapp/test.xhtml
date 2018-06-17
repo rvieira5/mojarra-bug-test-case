@@ -12,22 +12,8 @@
 
         <p>The following example shows a list of objects, with all of them
             having a inner object instantiated. The list should be printing only
-            'not-empty object' values.</p>
-
-        <p>The bug happens when there is a p:commandLink tag in a form,
-            another form with a dataTable containing a var element with the same
-            name as the actual dataTable var attribute and one or more unrelated
-            forms. The p:commandLink must reference the unrelated forms. When the
-            page is rendered, the current form var seems to be erased, hence the
-            current row data is corrupted.</p>
-
-        <p>Some workarounds to fix the error:</p>
-        <ul>
-            <li>Change the var name in one of the h:dataTable components</li>
-            <li>Remove the p:commandLink tag of the column in the h:dataTable
-                (or change to h:commandLink tag)</li>
-            <li>Remove the update attribute inside the p:commandLink tag</li>
-        </ul>
+            'not-empty object' values in all JSF implementations. AFAIK the
+            following example works in MyFaces but doesn't work in Mojarra.</p>
 
         <hr />
 
