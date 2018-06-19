@@ -133,9 +133,6 @@
     <profiles>
         <profile>
             <id>myfaces22</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <jsf-listener>org.apache.myfaces.webapp.StartupServletContextListener</jsf-listener>
             </properties>
@@ -174,6 +171,9 @@
 
         <profile>
             <id>mojarra22</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <jsf-listener>com.sun.faces.config.ConfigureListener</jsf-listener>
             </properties>

@@ -11,21 +11,23 @@
     <h:body>
 
         <p>The following example shows a list of objects, with all of them
-            having a inner object instantiated. The list should be printing only
-            'not-empty object' values in all JSF implementations. AFAIK the
-            following example works in MyFaces but doesn't work in Mojarra.</p>
+            having a inner object instantiated. The table should be printing only
+            'object exists' values in the second column, for all JSF
+            implementations. AFAIK the following example works in MyFaces but
+            doesn't work in Mojarra.</p>
 
         <hr />
 
         <h:form id="firstForm">
             <h:dataTable id="firstTable" value="#{testView.list}" var="testRow">
                 <h:column>
-                    <ui:fragment rendered="#{testRow.flag}">
-                        <p:commandLink disabled="#{empty testRow.innerObject}"
-                                       update="thirdForm" />
-                    </ui:fragment>
+                    <f:facet name="header">Side effect enabled?</f:facet>
+                    <h:outputText value="#{testView.generateOutputWithSideEffect(testRow)}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Current var exists?</f:facet>
                     <h:outputText
-                        value="#{empty testRow.innerObject ? 'empty object' : 'not-empty object'}" />
+                        value="#{empty testRow ? '--' : 'object exists'}" />
                 </h:column>
             </h:dataTable>
         </h:form>
