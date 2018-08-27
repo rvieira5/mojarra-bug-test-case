@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
 
-    <h:head>   
-        <title>PrimeFaces Test</title>
-    </h:head>
-    <h:body>
-        
-        <h1>#{testView.testString}</h1>
-        
-    </h:body>
+<h:head>
+	<title>PrimeFaces Test</title>
+</h:head>
+<h:body>
+
+	<p:dataTable id="firstTable" var="midObj" />
+
+	<h:form id="page-form" prependId="false">
+		<p:outputPanel id="external-panel" />
+		<p:outputPanel>
+			<ui:repeat var="outObj" value="#{testView.firstLevelList}">
+				<ui:repeat var="midObj"
+					value="#{testView.extractMidLevelData(outObj).toArray()}">
+					<p:dataTable id="data-table"
+						value="#{testView.extractInnerLevelData(outObj, midObj)}"
+						var="innerObj">
+						<p:column headerText="Column">
+							<h:outputText value="#{outObj}" />
+							<h:outputText value="#{midObj}" />
+							<p:inputText>
+								<p:ajax event="change" update="data-table external-panel" />
+							</p:inputText>
+						</p:column>
+
+					</p:dataTable>
+				</ui:repeat>
+			</ui:repeat>
+		</p:outputPanel>
+	</h:form>
+
+</h:body>
 </html>
