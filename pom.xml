@@ -20,11 +20,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>21.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>phantomjsdriver</artifactId>
             <version>1.4.4</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- javax.* APIs -->
