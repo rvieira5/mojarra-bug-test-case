@@ -1,4 +1,4 @@
-package org.arquillian.example;
+package org.mojarrabug.example;
 
 import static org.junit.Assert.assertNotEquals;
 
@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 @RunWith(Arquillian.class)
-public class TableErrorGrapheneIT {
+public class TableErrorIT {
 
     @Drone
     private WebDriver browser;
