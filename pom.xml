@@ -10,42 +10,42 @@
     <name>mojarra-bug-test-case</name>
 
     <properties>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.java.version>1.8</project.java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>el-api</artifactId>
-            <version>2.2</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
+            <artifactId>javax.faces-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
             <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
 
     </dependencies>
 
     <build>
+        <finalName>mojarra-bug-test-case</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>${project.java.version}</source>
+                    <target>${project.java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -54,17 +54,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <webResources>
-                        <resource>
-                            <filtering>true</filtering>
-                            <directory>src/main/webapp</directory>
-                            <includes>
-                                <include>**/web.xml</include>
-                            </includes>
-                        </resource>
-                    </webResources>
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webXml>${webxml.filelocation}</webXml>
                 </configuration>
             </plugin>
             <plugin>
@@ -78,6 +69,31 @@
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.7.3</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat8x</containerId>
+                        <timeout>3600000</timeout>
+                        <zipUrlInstaller>
+                            <url>https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.32/bin/apache-tomcat-8.5.32.tar.gz</url>
+                            <downloadDir>${user.home}/tomcat</downloadDir>
+                            <extractDir>${user.home}/tomcat</extractDir>
+                        </zipUrlInstaller>
+                    </container>
+                    <configuration>
+                        <home>${project.build.directory}/tomcat8x</home>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <location>${project.build.directory}/${project.build.finalName}.${project.packaging}</location>
+                            <pingURL>http://localhost:8080/cargocpc/index.html</pingURL>
+                        </deployable>
+                    </deployables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -85,7 +101,7 @@
         <profile>
             <id>myfaces22</id>
             <properties>
-                <jsf-listener>org.apache.myfaces.webapp.StartupServletContextListener</jsf-listener>
+                <webxml.filelocation>src/main/webapp/WEB-INF/web-myfaces.xml</webxml.filelocation>
             </properties>
             <dependencies>
                 <dependency>
@@ -103,7 +119,7 @@
         <profile>
             <id>myfaces23</id>
             <properties>
-                <jsf-listener>org.apache.myfaces.webapp.StartupServletContextListener</jsf-listener>
+                <webxml.filelocation>src/main/webapp/WEB-INF/web-myfaces.xml</webxml.filelocation>
             </properties>
             <dependencies>
                 <dependency>
@@ -126,7 +142,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <jsf-listener>com.sun.faces.config.ConfigureListener</jsf-listener>
+                <webxml.filelocation>src/main/webapp/WEB-INF/web-mojarra.xml</webxml.filelocation>
             </properties>
             <dependencies>
                 <dependency>
@@ -139,13 +155,23 @@
         <profile>
             <id>mojarra23</id>
             <properties>
-                <jsf-listener>com.sun.faces.config.ConfigureListener</jsf-listener>
+                <webxml.filelocation>src/main/webapp/WEB-INF/web-mojarra.xml</webxml.filelocation>
             </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>javax.faces</artifactId>
-                    <version>2.3.5</version>
+                    <version>2.3.9</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss</groupId>
+                    <artifactId>jandex</artifactId>
+                    <version>1.2.2.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                    <version>2.2.14.Final</version>
                 </dependency>
             </dependencies>
         </profile>
