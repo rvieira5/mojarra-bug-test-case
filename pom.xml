@@ -284,8 +284,8 @@
             <dependencies>
                 <dependency>
                     <groupId>org.glassfish</groupId>
-                    <artifactId>javax.faces</artifactId>
-                    <version>2.3.5</version>
+                    <artifactId>jakarta.faces</artifactId>
+                    <version>2.3.13</version>
                 </dependency>
             </dependencies>
         </profile>
